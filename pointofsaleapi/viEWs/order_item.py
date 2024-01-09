@@ -3,71 +3,61 @@ from django.db.models import Count
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from pointofsaleapi.models import Order
+from pointofsaleapi.models import OrderItem
 
-class OrderView(ViewSet):
-    """Level up Order view"""
+class OrderItemView(ViewSet):
+    """Level up orderitem view"""
 
     def retrieve(self, request, pk):
-        """Handle GET requests for single orders
+        """Handle GET requests for single order items
 
         Returns:
-            Response -- JSON serialized order
+            Response -- JSON serialized order item
         """
-        order = Order.objects.get(pk=pk)
-        serializer = OrderSerializer(order, context={'request': request})
+        order_item = OrderItem.objects.get(pk=pk)
+        serializer = OrderItemSerializer(order_item, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
     def list(self, request):
-        """Handle GET requests to get all orders
+        """Handle GET requests to get all order items
 
         Returns:
-            Response -- JSON serialized list of orders
+            Response -- JSON serialized list of order items
         """
-        order = Order.objects.all()
-        serializer = OrderSerializer(order, many=True)
+        order_item = OrderItem.objects.all()
+        serializer = OrderItemSerializer(order_item, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
       
     def create(self, request):
         """Handle POST operations
 
         Returns
-          Response -- JSON serialized Order instance
+          Response -- JSON serialized order item instance
         """
-        order = Order.objects.create(
-            user = request.data["user"],
-            name = request.data["name"],
-            status = request.data["status"],
-            customer_phone = request.data["customer_phone"],
-            customer_email = request.data["customer_email"],
-            type = request.data["type"],
-            closed = request.data["closed"]
+        order_item = OrderItem.objects.create(
+            order = request.data["order"],
+            item = request.data["item"]
         )
 
-        serializer = OrderSerializer(order, many=False)
+        serializer = OrderItemSerializer(order_item, many=False)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def update(self, request, pk):
-        """Handle PUT requests for a Order
+        """Handle PUT requests for a order item
 
         Returns:
           Response -- Empty body with 204 status code
         """
 
-        order = Order.objects.get(pk=pk)
+        order_item = orderitem.objects.get(pk=pk)
       
-        order.user = request.data["user"]
-        order.name = request.data["name"]
-        order.status = request.data["status"]
-        order.customer_phone = request.data["customer_phone"]
-        order.customer_email = request.data["customer_email"]
-        order.type = request.data["type"]
-        order.closed = request.data["closed"]
+        order_item.order = request.data["order"],
+        order_item.item = request.data["item"]
 
-        order.save()
+        order_item.save()
         
-        serializer = OrderSerializer(order, many=False)
+        serializer = OrderItemSerializer(order_item, many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def destroy(self, response, pk):
@@ -76,16 +66,16 @@ class OrderView(ViewSet):
         Returns:
             Response: Empty body with 204 code
         """
-        order = Order.objects.get(pk=pk)
-        order.delete()
+        order_item = OrderItem.objects.get(pk=pk)
+        order_item.delete()
         return response(None, status=status.HTTP_204_NO_CONTENT)
         
 
-class OrderSerializer(serializers.ModelSerializer):
-    """JSON serializer for orders
+class OrderItemSerializer(serializers.ModelSerializer):
+    """JSON serializer for order items
 
     """
     class Meta:
-        model = Order
-        fields = ('id', 'user', 'status', 'customer_phone', 'customer_email', 'type', 'closed')
+        model = OrderItem
+        fields = ('id', 'order', 'item')
         depth = 1
