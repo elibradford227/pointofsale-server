@@ -1,0 +1,26 @@
+[
+  {
+      "model": "pointofsaleapi.user",
+      "pk": 1,
+      "fields": {
+          "uid": "user1_uid",
+          "username": "user 1 name"
+      }
+  },
+  {
+      "model": "pointofsaleapi.user",
+      "pk": 2,
+      "fields": {
+          "uid": "user2_uid",
+          "username": "user 2 name"
+      }
+  },
+  {
+      "model": "pointofsaleapi.user",
+      "pk": 3,
+      "fields": {
+          "uid": "user3_uid",
+          "username": "user 3 name"
+      }
+  }
+]

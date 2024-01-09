@@ -1,0 +1,28 @@
+[
+  {
+      "model": "pointofsaleapi.order",
+      "pk": 1,
+      "fields": {
+          "user": 1,  
+          "name": "Order1",
+          "status": "Open",
+          "customer_phone": "1234567890",
+          "customer_email": "customer1@example.com",
+          "type": "Type1",
+          "closed": false
+      }
+  },
+  {
+      "model": "pointofsaleapi.order",
+      "pk": 2,
+      "fields": {
+          "user": 2,  
+          "name": "Order2",
+          "status": "Completed",
+          "customer_phone": "9876543210",
+          "customer_email": "customer2@example.com",
+          "type": "Type2",
+          "closed": true
+      }
+  }
+]
