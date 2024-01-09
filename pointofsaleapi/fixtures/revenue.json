@@ -1,0 +1,24 @@
+[
+  {
+      "model": "pointofsaleapi.revenue",
+      "pk": 1,
+      "fields": {
+          "order": 1,  
+          "total": 100,
+          "payment_type": "Credit Card",
+          "tip": 10,
+          "order_type": "Phone"
+      }
+  },
+  {
+      "model": "pointofsaleapi.revenue",
+      "pk": 2,
+      "fields": {
+          "order": 2,  
+          "total": 150,
+          "payment_type": "Cash",
+          "tip": 20,
+          "order_type": "In-Person"
+      }
+  }
+]
