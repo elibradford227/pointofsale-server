@@ -4,11 +4,11 @@
       "pk": 1,
       "fields": {
           "user": 1,  
-          "name": "Order1",
+          "name": "Jared's Order",
           "status": "Open",
           "customer_phone": "1234567890",
-          "customer_email": "customer1@example.com",
-          "type": "Type1",
+          "customer_email": "janderson@gmail.com",
+          "type": "Phone",
           "closed": false
       }
   },
@@ -17,12 +17,12 @@
       "pk": 2,
       "fields": {
           "user": 2,  
-          "name": "Order2",
-          "status": "Completed",
+          "name": "Thomas's Order",
+          "status": "Open",
           "customer_phone": "9876543210",
-          "customer_email": "customer2@example.com",
-          "type": "Type2",
-          "closed": true
+          "customer_email": "trice@gmail.com",
+          "type": "Inside",
+          "closed": false
       }
   }
 ]
