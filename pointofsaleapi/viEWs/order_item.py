@@ -50,7 +50,7 @@ class OrderItemView(ViewSet):
           Response -- Empty body with 204 status code
         """
 
-        order_item = orderitem.objects.get(pk=pk)
+        order_item = OrderItem.objects.get(pk=pk)
       
         order_item.order = request.data["order"],
         order_item.item = request.data["item"]

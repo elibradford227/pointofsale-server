@@ -3,7 +3,7 @@ from django.db.models import Count
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from pointofsaleapi.models import Order
+from pointofsaleapi.models import Order, User
 
 class OrderView(ViewSet):
     """Level up Order view"""
@@ -35,14 +35,16 @@ class OrderView(ViewSet):
         Returns
           Response -- JSON serialized Order instance
         """
+        user = User.objects.get(uid=request.data['uid'])
+        
         order = Order.objects.create(
-            user = request.data["user"],
+            user = user,
             name = request.data["name"],
             status = request.data["status"],
             customer_phone = request.data["customer_phone"],
             customer_email = request.data["customer_email"],
             type = request.data["type"],
-            closed = request.data["closed"]
+            closed = False
         )
 
         serializer = OrderSerializer(order, many=False)
@@ -78,7 +80,7 @@ class OrderView(ViewSet):
         """
         order = Order.objects.get(pk=pk)
         order.delete()
-        return response(None, status=status.HTTP_204_NO_CONTENT)
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
         
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -87,5 +89,5 @@ class OrderSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Order
-        fields = ('id', 'user', 'status', 'customer_phone', 'customer_email', 'type', 'closed')
+        fields = ('id', 'name', 'user', 'status', 'customer_phone', 'customer_email', 'type', 'closed')
         depth = 1
