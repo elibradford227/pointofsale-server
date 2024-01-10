@@ -39,7 +39,6 @@ def register_user(request):
     '''
 
     user = User.objects.create(
-        bio=request.data['bio'],
         uid=request.data['uid'],
         username=request.data['username']
     )
@@ -48,6 +47,6 @@ def register_user(request):
     data = {
         'id': user.id,
         'uid': user.uid,
-        'name': user.username,
+        'username': user.username,
     }
     return Response(data)

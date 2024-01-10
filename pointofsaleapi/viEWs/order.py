@@ -40,7 +40,7 @@ class OrderView(ViewSet):
         order = Order.objects.create(
             user = user,
             name = request.data["name"],
-            status = request.data["status"],
+            status = 'Open',
             customer_phone = request.data["customer_phone"],
             customer_email = request.data["customer_email"],
             type = request.data["type"],
