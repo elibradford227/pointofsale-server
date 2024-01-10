@@ -48,8 +48,6 @@ def register_user(request):
     data = {
         'id': user.id,
         'uid': user.uid,
-        'bio': user.bio,
-        'name': user.name,
-        'admin': user.admin
+        'name': user.username,
     }
     return Response(data)

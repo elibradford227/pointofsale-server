@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from rest_framework import routers
-from pointofsaleapi.views import OrderView, RevenueView, ItemView, OrderItemView
+from pointofsaleapi.views import OrderView, RevenueView, ItemView, OrderItemView, check_user, register_user
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'orders', OrderView, 'order')
@@ -28,4 +28,6 @@ router.register(r'orderitems', OrderItemView, 'orderitem')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    path('register', register_user),
+    path('checkuser', check_user),
 ]
