@@ -70,7 +70,7 @@ class OrderItemView(ViewSet):
         """
         order_item = OrderItem.objects.get(pk=pk)
         order_item.delete()
-        return response(None, status=status.HTTP_204_NO_CONTENT)
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
         
 
 class OrderItemSerializer(serializers.ModelSerializer):

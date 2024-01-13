@@ -14,7 +14,7 @@
       "model": "pointofsaleapi.revenue",
       "pk": 2,
       "fields": {
-          "order": 2,  
+          "order": 8,  
           "total": 150,
           "payment_type": "Cash",
           "tip": 20,

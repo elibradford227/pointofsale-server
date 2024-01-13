@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 from pointofsaleapi.models import Order, User, OrderItem, Item
 from .item import ItemSerializer
-from django.views.decorators.http import require_http_methods
+from rest_framework.decorators import action
 from .revenue import RevenueView
 
 class OrderView(ViewSet):
@@ -93,6 +93,14 @@ class OrderView(ViewSet):
         """
         order = Order.objects.get(pk=pk)
         order.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+    
+    @action(methods=['delete'], detail=True)
+    def delete_order_item(self, request, pk):
+        
+        order_item = request.data["order_item"]
+        OrderItem.objects.filter(order=pk, item=order_item).delete()
+            
         return Response(None, status=status.HTTP_204_NO_CONTENT)
     
         
