@@ -3,7 +3,7 @@ from django.db.models import Count
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from pointofsaleapi.models import OrderItem
+from pointofsaleapi.models import OrderItem, Item, Order
 
 class OrderItemView(ViewSet):
     """Level up orderitem view"""
@@ -35,9 +35,11 @@ class OrderItemView(ViewSet):
         Returns
           Response -- JSON serialized order item instance
         """
+        order = Order.objects.get(pk=request.data['order'])
+        item = Item.objects.get(pk=request.data['item'])
         order_item = OrderItem.objects.create(
-            order = request.data["order"],
-            item = request.data["item"]
+            order = order,
+            item = item
         )
 
         serializer = OrderItemSerializer(order_item, many=False)
