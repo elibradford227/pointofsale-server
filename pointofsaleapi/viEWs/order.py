@@ -3,7 +3,10 @@ from django.db.models import Count
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from pointofsaleapi.models import Order, User
+from pointofsaleapi.models import Order, User, OrderItem, Item
+from .item import ItemSerializer
+from django.views.decorators.http import require_http_methods
+from .revenue import RevenueView
 
 class OrderView(ViewSet):
     """Level up Order view"""
@@ -15,6 +18,13 @@ class OrderView(ViewSet):
             Response -- JSON serialized order
         """
         order = Order.objects.get(pk=pk)
+        
+        orderitem_id = OrderItem.objects.filter(order=order.pk)
+        items = []
+        for item in orderitem_id:
+            items.append(item.item_id)
+        order.items = Item.objects.filter(pk__in=items)
+        
         serializer = OrderSerializer(order, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -26,6 +36,7 @@ class OrderView(ViewSet):
             Response -- JSON serialized list of orders
         """
         order = Order.objects.all()
+    
         serializer = OrderSerializer(order, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
       
@@ -58,8 +69,10 @@ class OrderView(ViewSet):
         """
 
         order = Order.objects.get(pk=pk)
+        
+        user = User.objects.get(uid=request.data['uid'])
       
-        order.user = request.data["user"]
+        order.user = user
         order.name = request.data["name"]
         order.status = request.data["status"]
         order.customer_phone = request.data["customer_phone"]
@@ -81,13 +94,17 @@ class OrderView(ViewSet):
         order = Order.objects.get(pk=pk)
         order.delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
+    
         
 
 class OrderSerializer(serializers.ModelSerializer):
     """JSON serializer for orders
 
     """
+    
+    items = ItemSerializer(many=True, read_only=True)
+    
     class Meta:
         model = Order
-        fields = ('id', 'name', 'user', 'status', 'customer_phone', 'customer_email', 'type', 'closed')
+        fields = ('id', 'name', 'user', 'status', 'customer_phone', 'customer_email', 'type', 'closed', 'items')
         depth = 1
