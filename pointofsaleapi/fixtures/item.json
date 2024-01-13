@@ -1,0 +1,18 @@
+[
+  {
+      "model": "pointofsaleapi.item",
+      "pk": 1,
+      "fields": {
+          "name": "pizza",
+          "price": 2.32  
+      }
+  },
+  {
+      "model": "pointofsaleapi.item",
+      "pk": 2,
+      "fields": {
+          "name": "wings",  
+          "price": 0.79
+      }
+  }
+]

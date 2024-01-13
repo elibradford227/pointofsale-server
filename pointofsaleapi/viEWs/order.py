@@ -4,6 +4,8 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from pointofsaleapi.models import Order, User
+from django.views.decorators.http import require_http_methods
+from .revenue import RevenueView
 
 class OrderView(ViewSet):
     """Level up Order view"""
@@ -58,8 +60,10 @@ class OrderView(ViewSet):
         """
 
         order = Order.objects.get(pk=pk)
+        
+        user = User.objects.get(uid=request.data['uid'])
       
-        order.user = request.data["user"]
+        order.user = user
         order.name = request.data["name"]
         order.status = request.data["status"]
         order.customer_phone = request.data["customer_phone"]
@@ -81,6 +85,7 @@ class OrderView(ViewSet):
         order = Order.objects.get(pk=pk)
         order.delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
+    
         
 
 class OrderSerializer(serializers.ModelSerializer):
