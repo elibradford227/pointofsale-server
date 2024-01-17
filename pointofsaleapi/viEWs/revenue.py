@@ -3,7 +3,8 @@ from django.db.models import Count
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from pointofsaleapi.models import Revenue
+from rest_framework.decorators import action
+from pointofsaleapi.models import Revenue, Order
 
 class RevenueView(ViewSet):
     """Level up revenue view"""
@@ -35,6 +36,7 @@ class RevenueView(ViewSet):
         Returns
           Response -- JSON serialized revenue instance
         """
+        
         revenue = Revenue.objects.create(
             order = request.data["order"],
             total = request.data["total"],

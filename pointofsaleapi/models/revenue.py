@@ -2,8 +2,8 @@ from django.db import models
 from .order import Order
 
 class Revenue(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    total = models.IntegerField()
+    order = models.IntegerField()
+    total = models.FloatField()
     payment_type = models.CharField(max_length=20)
-    tip = models.IntegerField()
+    tip = models.FloatField()
     order_type = models.CharField(max_length=20)
