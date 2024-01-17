@@ -36,10 +36,9 @@ class RevenueView(ViewSet):
         Returns
           Response -- JSON serialized revenue instance
         """
-        order = Order.objects.get(pk=request.data['order'])
         
         revenue = Revenue.objects.create(
-            order = order,
+            order = request.data["order"],
             total = request.data["total"],
             payment_type = request.data["payment_type"],
             tip = request.data["tip"],
