@@ -6,7 +6,6 @@ from rest_framework import serializers, status
 from pointofsaleapi.models import Order, User, OrderItem, Item
 from .item import ItemSerializer
 from rest_framework.decorators import action
-from .revenue import RevenueView
 
 class OrderView(ViewSet):
     """Level up Order view"""
@@ -44,7 +43,7 @@ class OrderView(ViewSet):
         """Handle POST operations
 
         Returns
-          Response -- JSON serialized Order instance
+            Response -- JSON serialized Order instance
         """
         user = User.objects.get(uid=request.data['uid'])
         
@@ -65,13 +64,13 @@ class OrderView(ViewSet):
         """Handle PUT requests for a Order
 
         Returns:
-          Response -- Empty body with 204 status code
+            Response -- Empty body with 204 status code
         """
 
         order = Order.objects.get(pk=pk)
         
         user = User.objects.get(uid=request.data['uid'])
-      
+
         order.user = user
         order.name = request.data["name"]
         order.status = request.data["status"]
@@ -98,10 +97,14 @@ class OrderView(ViewSet):
     @action(methods=['delete'], detail=True)
     def delete_order_item(self, request, pk):
         
-        order_item = request.data["order_item"]
-        OrderItem.objects.filter(order=pk, item=order_item).delete()
-            
-        return Response(None, status=status.HTTP_204_NO_CONTENT)
+        # Filters orderitem join table with pk order passed from the url and item id passed from the body
+        
+        try:
+            order_item = request.data.get("order_item")
+            OrderItem.objects.filter(order=pk, item=order_item).delete()
+            return Response(None, status=status.HTTP_204_NO_CONTENT)
+        except OrderItem.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
     
         
 
